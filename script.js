@@ -133,5 +133,51 @@ $("#sortid").on("click", function () {
 
 $("#search").on("blur", function () {
   let searchtext = $("#search").val();
-  
+  let searchfilter = globleresult.filter((a) => {
+    let search = searchtext.toLowerCase();
+    let name = a.first_name;
+    let sname = name.toLowerCase();
+    let team = a.team.division;
+    let teams = team.toLowerCase();
+    let td = a.team.name;
+    let tds = td.toLowerCase();
+
+    if (search == a.id) {
+      return a.id;
+    }
+    if (sname == search) {
+      return a.first_name;
+    }
+    if (teams == search) {
+      return a.team.division;
+    }
+    if (tds == search) {
+      return a.team.name;
+    }
+  });
+
+  if (searchfilter != "") {
+    $("tbody tr").remove();
+    for (let key in searchfilter) {
+      let obj = searchfilter[key];
+      $("tbody").append(`<tr>
+          <td>${obj.id}</td>
+          <td>${obj.first_name}</td>
+          <td>${obj.team.division}</td>
+          <td>${obj.team.name}</td>
+        </tr>`);
+    }
+  } else {
+    $("tbody tr").remove();
+
+    for (let key in globleresult) {
+      let obj = globleresult[key];
+      $("tbody").append(`<tr>
+          <td>${obj.id}</td>
+          <td>${obj.first_name}</td>
+          <td>${obj.team.division}</td>
+          <td>${obj.team.name}</td>
+        </tr>`);
+    }
+  }
 });
